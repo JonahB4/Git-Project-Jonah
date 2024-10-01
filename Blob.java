@@ -12,7 +12,7 @@ public class Blob {
     public Blob() {
 
     }
-
+    
     public static String createName(String password) {
         String sha1 = "";
         try {
@@ -45,9 +45,15 @@ public class Blob {
         String ls = System.getProperty("line.separator");
 
         try {
+        boolean startingLine = true;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
+                if (startingLine){
+                    stringBuilder.append(line);
+                    startingLine = false;
+                }else{
+                    stringBuilder.append(ls);
+                    stringBuilder.append(line);
+                }
             }
 
             return stringBuilder.toString();
@@ -62,9 +68,8 @@ public class Blob {
     // 2. Copy the file content into the new file *inside* the `objects` directory
 
     public static void generateNewBlob(String inputFilePath) throws IOException {
-        File file = new File(inputFilePath);
         String textFromFile = readFile(inputFilePath);
-        String filename = createName(textFromFile);
+        String filename = createName(textFromFile); // this line gets the hash
         File objectsDir = new File("git" + File.separator + "objects");
         if (!objectsDir.exists()) {
             objectsDir.mkdirs();
@@ -75,7 +80,8 @@ public class Blob {
         newFileWriter.close();
         File indexFile = new File("git" + File.separator + "index");
         FileWriter indexWriter = new FileWriter(indexFile, true);
-        indexWriter.write(filename + " " + file.getName() + System.lineSeparator());
+
+        indexWriter.write("blob" + " " + filename + " " + inputFilePath +System.lineSeparator());
         indexWriter.close();
     }
 

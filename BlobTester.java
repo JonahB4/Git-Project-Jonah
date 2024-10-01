@@ -21,34 +21,35 @@ public class BlobTester {
         System.out.println("Test file '" + fileName + "' created.");
     }
 
-    private static void verifyBlob(String testFileName) throws IOException {
+    public static void verifyBlob(String testFileName) throws IOException {
         String textFromFile = Blob.readFile(testFileName);
         String expectedHash = Blob.createName(textFromFile);
         File generatedFile = new File("git" + File.separator + "objects" + File.separator + expectedHash);
         if (generatedFile.exists()) {
-            System.out.println("Blob file created");
+            System.out.println("Blob file "+ testFileName +" created");
         } else {
-            System.out.println("Blob file missing");
+            System.out.println("Blob file "+ testFileName +" missing");
         }
         File indexFile = new File("git" + File.separator + "index");
         BufferedReader reader = new BufferedReader(new FileReader(indexFile));
         String line;
+        String expectedLine = "blob " + expectedHash + " " + testFileName;
         boolean found = false;
         while ((line = reader.readLine()) != null) {
-            if (line.startsWith(expectedHash) && line.endsWith(testFileName)) {
+            if (line.equals(expectedLine)) {
                 found = true;
                 break;
             }
         }
         reader.close();
         if (found) {
-            System.out.println("Entry found in index file: PASS");
+            System.out.println(testFileName + "Entry found in index file: PASS");
         } else {
-            System.out.println("Entry missing in index file: FAIL");
+            System.out.println(testFileName +"Entry missing in index file: FAIL");
         }
     }
 
-    private static void resetFiles() throws IOException {
+    public static void resetFiles() throws IOException {
         File indexFile = new File("git" + File.separator + "index");
         if (indexFile.exists()) {
             FileWriter writer = new FileWriter(indexFile, false); // Overwrite mode
