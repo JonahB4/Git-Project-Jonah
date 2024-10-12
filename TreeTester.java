@@ -19,8 +19,8 @@ public class TreeTester {
 
         String[] treeHashs = new String[] { folder1Hash, folder2Hash };
 
-        // setUp(folder1Name, folder2Name, file1Name, file2Name, file1Contents, file2Contents);//need to already have folder 1 and 2 created
-        
+        // setUp(folder1Name, folder2Name, file1Name, file2Name, file1Contents,
+        // file2Contents);//need to already have folder 1 and 2 created
 
         Tree.generateTree(folder1Name);
         verifyTree(folder1Name, treeHashs, 0);
@@ -109,12 +109,12 @@ public class TreeTester {
                 // check that the blobs exist in objects
                 // check that it is in index
                 try {
-                    BlobTester.verifyBlob(""+subFile);
+                    BlobTester.verifyBlob("" + subFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (subFile.isDirectory()) {
-                verifyTree(""+subFile, treeHashs, counter);
+                verifyTree("" + subFile, treeHashs, counter);
             }
         }
 
@@ -141,16 +141,16 @@ public class TreeTester {
                     if (file.delete()) {
                         System.out.println("Deleted " + file + " object");
                     } else {
-                        System.out.println("Failed to delete "+ file);
+                        System.out.println("Failed to delete " + file);
                     }
                 }
             }
         }
         File project = new File(System.getProperty("user.dir"));
-        if (project.exists()){
+        if (project.exists()) {
             File[] fileArray = project.listFiles();
-            for (File file:fileArray){
-                if (file.getName().endsWith(".txt")){
+            for (File file : fileArray) {
+                if (file.getName().endsWith(".txt")) {
                     file.delete();
                     System.out.println("deleted: " + file);
                 }

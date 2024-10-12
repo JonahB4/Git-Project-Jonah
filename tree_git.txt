@@ -1,0 +1,3 @@
+tree 2f4a258c396d5951458ac967099b3b4dfa1686e8 git/objects
+blob 2bb642af468d5c901ec46c682750f15360f8f8be git/HEAD
+blob 25e19eea7a52abb7be6bc16147ce3a09652929b9 git/index
